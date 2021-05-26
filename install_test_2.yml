@@ -5,15 +5,63 @@
   hosts: mediawiki
   tasks:
 
-    - name: install par script
-      command: "{{ item }}"
+# MySQL
+#MySQL
+    - name: Install MySQL
+      package:
+        name: "{{ item }}"
+        state: present
       loop:
-        - "php install.php --dbname wikiFV --dbuser userwiki --dbpass az --dbserver localhost --server 'http://192.168.1.26' --dbtype mysql  --lang fr --scriptpath /wikidevops --confpath /home/appli/MWA_mediawiki/LIVR/wikidevops --pass azerty123admin wikiFV admin"
-        - "php importDump.php --wiki wikiFV --server 'http://192.168.1.26' --dbuser userwiki --dbpass az /home/appli/MWA_mediawiki/LIVR/Donnees.xml"
-        - "php rebuildrecentchanges.php"
-        - "php initSiteStats.php"
-        - "php importImages.php --wiki wikiFV --server 'http://192.168.1.26' --dbuser userwiki --dbpass az /home/appli/MWA_mediawiki/LIVR/wikidevops/images"
+        - mysql-server
+        - python3-mysqldb
+
+    - name: Generate new root password
+      command: openssl rand -hex 7
       args:
-        chdir: /home/appli/MWA_mediawiki/LIVR/wikidevops/maintenance
+        creates: /root/.my.cnf
+      register: mysql_new_root_pass
+
+    - name: Remove anonymous users
+      mysql_user:
+        name: ""
+        state: absent
+      when: mysql_new_root_pass.changed
+
+    - name: Remove test database
+      mysql_db:
+        name: test
+        state: absent
+      when: mysql_new_root_pass.changed
+
+    - name: Output new root password
+      debug:
+        msg: "New root password is {{mysql_new_root_pass.stdout}}"
+      when: mysql_new_root_pass.changed
+
+    - name: Update root password
+      mysql_user:
+        name: root
+        host: "{{ item }}"
+        password: "{{ mysql_new_root_pass.stdout }}"
+      loop:
+        - "{{ ansible_hostname }}"
+        - 127.0.0.1
+        - ::1
+        - localhost
+      when: mysql_new_root_pass.changed
+
+    - name: Create my.cnf
+      template:
+        src: templates/mysql/my.cnf.j2
+        dest: /root/.my.cnf
+      when: mysql_new_root_pass.changed
+
+#    - name: update root password
+
+    - name: create my.cnf
+      template:
+        src: templates/mysql/my.cnf.j2
+        dest: /root/.my.cnf
+      when: mysql_new_root_pass.changed
 
 ...
