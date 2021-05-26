@@ -182,6 +182,12 @@
 
 
     # directory of appli
+
+    - name: stat directory
+      stat: path=/home/appli
+      register: appli
+  
+
     - name : directory appli
       file:
         path: "{{ item }}"
@@ -191,6 +197,7 @@
         - /home/appli/MWA_mediawiki
         - /home/appli/MWA_mediawiki/LIVR
         - /home/appli/MWA_mediawiki/LIVR/01.00.00
+      when: not appli.stat.exists
 
     - name: git repo
       get_url:
