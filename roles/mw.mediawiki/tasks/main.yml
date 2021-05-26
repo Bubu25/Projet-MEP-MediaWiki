@@ -8,7 +8,6 @@
 #    creates: "{{ item }}"
   loop:
     - "{{server_disc}}"
-    - "{{logs}}"
 
 - name : directory appli
   file:
