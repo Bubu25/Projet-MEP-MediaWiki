@@ -105,21 +105,8 @@
       when: mysql_new_root_pass.changed
 
 
-    #Création bdd et user
-    - name: Create MySQL DB
-      mysql_db:
-        name: wikiFV
-        state: present
 
-    - name: Create MySQL user
-      mysql_user:
-        name: userwiki
-        host: localhost
-        password: az
-        priv: wikiFV.*:ALL
-
-            # deplace directory mysql
-
+    # deplace directory mysql
     - name : create directory structure mysql
       file:
         path: /mnt/log
@@ -238,7 +225,20 @@
         dest: /var/www/html/wikidevops
         state: link
       notify: restart apache2
+      
 
+    #Création bdd et user
+    - name: Create MySQL DB
+      mysql_db:
+        name: wikiFV
+        state: present
+
+    - name: Create MySQL user
+      mysql_user:
+        name: userwiki
+        host: localhost
+        password: az
+        priv: wikiFV.*:ALL
 
     - name: restart mysql
       service:
