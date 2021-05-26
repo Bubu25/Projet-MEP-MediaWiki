@@ -54,7 +54,7 @@
 # deplace directory mysql
 - name : create directory structure mysql
   file:
-    path: "{{logs}}"
+    path: /mnt/log
     state: directory
     
 - name: "stop mysql service"
