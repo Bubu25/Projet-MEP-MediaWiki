@@ -1,6 +1,15 @@
 ---
 # tasks file for mw.mediawiki
 #Création directory, recup des tar et decompress
+- name : Directory FS
+  file:
+    path: "{{ item }}"
+    state: directory
+#    creates: "{{ item }}"
+  loop:
+    - "{{server_disc}}"
+    - "{{logs}}"
+
 - name : directory appli
   file:
     path: "{{ item }}"
@@ -19,10 +28,10 @@
     url: "{{ item }}"
     dest: "{{version}}"
   loop:
-    - "{{repository}}/MWA_01.00.00_MEDIAWIKI.tar.gz"
-    - "{{repository}}/MWA_01.00.00_IMAGES.tar.gz"
+    - "{{repository}}/MWA_01.00.00_WIKI.tar.gz"
+    - "{{repository}}/MWA_01.00.00_IMAGE.tar.gz"
     - "{{repository}}/MWA_01.00.00_LOGO.tar.gz"
-    - "{{repository}}/MWA_01.00.00_DONNEES.tar.gz"
+    - "{{repository}}/MWA_01.00.00_DONNES.tar.gz"
 
 - name: untar package
   unarchive:
@@ -30,10 +39,10 @@
     dest: "{{version}}"
     remote_src: yes
   loop:
-    - "{{version}}/MWA_01.00.00_MEDIAWIKI.tar.gz"
-    - "{{version}}/MWA_01.00.00_IMAGES.tar.gz"
+    - "{{version}}/MWA_01.00.00_WIKI.tar.gz"
+    - "{{version}}/MWA_01.00.00_IMAGE.tar.gz"
     - "{{version}}/MWA_01.00.00_LOGO.tar.gz"
-    - "{{version}}/MWA_01.00.00_DONNEES.tar.gz"
+    - "{{version}}/MWA_01.00.00_DONNES.tar.gz"
 
 #Création bdd et user
 - name: Create MySQL DB
@@ -58,13 +67,13 @@
 - name: Move web folder
   command: "mv {{version}}/MWA_mediawiki/ {{apache2_projects}}/"
 
-#- name : Directory image
-#  file:
-#    path: "{{ item }}"
- #   state: directory
- # loop:
- #   - "{{mediawiki}}/images/2"
- #   - "{{mediawiki}}/images/2/21"
+- name : Directory image
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{mediawiki}}/images/2"
+    - "{{mediawiki}}/images/2/21"
 
 - name: Move LoGo
   copy:
@@ -75,7 +84,7 @@
 - name: Move image
   copy:
     src: "{{version}}/images/DevOps.png"
-    dest: "{{mediawiki}}/images"
+    dest: "{{mediawiki}}/images/2/21"
     remote_src: yes
 
 
@@ -98,7 +107,7 @@
     src: "{{mediawiki}}"
     dest: /var/www/html/mediawiki
     state: link
-  notify: restart apache2   
+  notify: restart apache2
 
 - name: install par script
   command: "{{ item }}"

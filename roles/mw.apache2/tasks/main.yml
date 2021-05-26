@@ -6,15 +6,18 @@
     name: apache2
     state: present
 
-#- name: www-data
+#- name: www-data uid
 #  ansible.builtin.user:
 #    name: www-data
 #    uid: 1101
 
-#- name: www-data
-#  ansible.builtin.group:
-#    name: www-data
-#    gid: 1100
+#- name: www-data uid
+#  command: usermod -u 1101 www-data
+
+- name: www-data gid
+  ansible.builtin.group:
+    name: www-data
+    gid: 1100
 
 #- name: Copy Apache2 conf
 #  template:
@@ -26,5 +29,3 @@
 #    src: templates/apache2/mediawiki.conf.j2
 #    dest: /etc/apache2/sites-available/mediawiki.conf
 #  notify: restart apache2
-
-
