@@ -225,7 +225,11 @@
         dest: /var/www/html/wikidevops
         state: link
       notify: restart apache2
-      
+
+    - name: restart mysql
+      service:
+        name: mysql
+        state: restarted
 
     #Création bdd et user
     - name: Create MySQL DB
@@ -240,10 +244,7 @@
         password: az
         priv: wikiFV.*:ALL
 
-    - name: restart mysql
-      service:
-        name: mysql
-        state: restarted
+
     
 
     - name: install par script
