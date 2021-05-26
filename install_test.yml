@@ -232,6 +232,13 @@
         state: link
       notify: restart apache2
 
+
+    - name: restart mysql
+      service:
+        name: mysql
+        state: restarted
+    
+
     - name: install par script
       command: "{{ item }}"
       loop:
