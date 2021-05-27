@@ -68,15 +68,8 @@
     creates: "{{version}}/MWA_mediawiki"
     removes: "{{version}}/wikidevops"
 
-
-# deplacement web folder 
-- name: stat web folder
-  stat: path="{{apache2_projects}}/"
-  register: webfolder
-
 - name: Move web folder
   command: "mv {{version}}/MWA_mediawiki/ {{apache2_projects}}/"
-  when: not webfolder.stat.exists
 
 #- name : Directory image
  # file:
@@ -86,15 +79,11 @@
   #  - "{{mediawiki}}/images/2"
  #   - "{{mediawiki}}/images/2/21"
 
-
-# deplacement logo
-
 - name: Move LoGo
   copy:
     src: "{{version}}/LoGo/GRA-135.png"
     dest: "{{mediawiki}}/resources/assets"
     remote_src: yes
- 
 
 #- name: Move image
  # copy:
