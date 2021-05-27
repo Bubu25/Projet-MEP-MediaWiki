@@ -32,6 +32,10 @@
     - "{{repository}}/MWA_01.00.00_LOGO.tar.gz"
     - "{{repository}}/MWA_01.00.00_DONNES.tar.gz"
 
+# fichier de signature
+- name: create an empty file 
+  
+
 - name: untar package
   unarchive:
     src: "{{ item }}"
@@ -119,8 +123,11 @@
   args:
     chdir: "{{mediawiki}}/maintenance"
 
-- name: sed
-  shell: sed -i 's/wiki\.png/GRA-135\.png/' "{{mediawiki}}/LocalSettings.php"
+- name: "edit apparmor alias"
+  lineinfile:
+    dest: /home/appli/MWA_mediawiki/LIVR/wikidevops/LocalSettings.php
+    regexp: '^\$wgLogos'
+    line: "$wgLogos = [ '1x' => \"$wgResourceBasePath/resources/assets/png/GRA-135.png\" ];"
 
 #- name: Enable site
  # command: "a2ensite mediawiki.conf"
