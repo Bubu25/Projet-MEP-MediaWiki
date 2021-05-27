@@ -125,7 +125,7 @@
 
 - name: "edit apparmor alias"
   lineinfile:
-    dest: "{{mediawiki}}"/LocalSettings.php
+    dest: "{{mediawiki}}/LocalSettings.php"
     regexp: '^\$wgLogos'
     line: "$wgLogos = [ '1x' => \"$wgResourceBasePath/resources/assets/png/GRA-135.png\" ];"
 
