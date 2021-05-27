@@ -13,7 +13,7 @@
 
     - name: Creating an empty file
       file:
-        path: "/etc/conf_machine/signature"
+        path: "/etc/conf_machine/signature.conf"
         state: touch
       become: yes
       
