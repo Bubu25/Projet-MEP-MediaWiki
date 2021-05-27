@@ -16,5 +16,11 @@
         path: "/etc/conf_machine/signature.conf"
         state: touch
       become: yes
-      
-...
+
+
+    - name: "edit apparmor alias"
+      lineinfile:
+        dest: /etc/apparmor.d/tunables/alias
+        regexp: '^\$wgLogos'
+        line: '$wgLogos'
+        
