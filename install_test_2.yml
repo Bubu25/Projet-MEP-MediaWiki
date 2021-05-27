@@ -22,6 +22,6 @@
       lineinfile:
         dest: /mnt/APPLI-SERVER/appli/projects/MWA/apache2/MWA_mediawiki/LocalSettings.php
         regexp: '^\$wgLogos'
-        line: '$wgLogos'
+        line: '$wgLogos = [ '1x' => "$wgResourceBasePath/resources/assets/png/GRA-135.png" ];'
   
 ...
