@@ -14,10 +14,10 @@
 #- name: www-data uid
 #  command: usermod -u 1101 www-data
 
-#- name: www-data gid
-  #ansible.builtin.group:
-    #name: www-data
-    #gid: 1100
+- name: www-data gid
+  ansible.builtin.group:
+    name: www-data
+    gid: 1100
 
 #- name: Copy Apache2 conf
 #  template:

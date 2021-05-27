@@ -1,19 +1,23 @@
 ---
 # tasks file for mw.mediawiki
 #Création directory, recup des tar et decompress
+# check signature application
+#- name: stat server
+ # stat: path="{{server_disc}}"
+#  register: server
+
 - name : Directory FS
   file:
-    path: "{{ item }}"
+    path: "{{server_disc}}"
     state: directory
-#creates: "{{ item }}"
-  loop:
-    - "{{server_disc}}"
+ # when: not server.stat.exists
+#    creates: "{{ item }}"
+
 
 - name : directory appli
   file:
     path: "{{ item }}"
     state: directory
-
   loop:
     - "{{main}}"
     - "{{projects}}"
@@ -32,7 +36,6 @@
     - "{{repository}}/MWA_01.00.00_IMAGE.tar.gz"
     - "{{repository}}/MWA_01.00.00_LOGO.tar.gz"
     - "{{repository}}/MWA_01.00.00_DONNES.tar.gz"
-  
 
 - name: untar package
   unarchive:
@@ -68,13 +71,13 @@
 - name: Move web folder
   command: "mv {{version}}/MWA_mediawiki/ {{apache2_projects}}/"
 
-- name : Directory image
-  file:
-    path: "{{ item }}"
-    state: directory
-  loop:
-    - "{{mediawiki}}/images/2"
-    - "{{mediawiki}}/images/2/21"
+#- name : Directory image
+ # file:
+  #  path: "{{ item }}"
+  #  state: directory
+ # loop:
+  #  - "{{mediawiki}}/images/2"
+ #   - "{{mediawiki}}/images/2/21"
 
 - name: Move LoGo
   copy:
@@ -82,11 +85,11 @@
     dest: "{{mediawiki}}/resources/assets"
     remote_src: yes
 
-- name: Move image
-  copy:
-    src: "{{version}}/images/DevOps.png"
-    dest: "{{mediawiki}}/images/2/21"
-    remote_src: yes
+#- name: Move image
+ # copy:
+   # src: "{{version}}/images/DevOps.png"
+   # dest: "{{mediawiki}}/images/2/21"
+   # remote_src: yes
 
 
 - name: Move Donnees.xml
@@ -135,7 +138,6 @@
     state: touch
   become: yes
 
-
 # dumps données
 - name: install par script
   command: "{{ item }}"
@@ -143,15 +145,31 @@
     - "php importDump.php --wiki {{wiki_nom}} --server 'http://{{ansible_host}}' --dbuser {{mysql_user}} --dbpass {{mysql_pass}} {{mediawiki}}/Donnees.xml"
     - "php rebuildrecentchanges.php"
     - "php initSiteStats.php"
-    - "php importImages.php {{mediawiki}}/images"
+    - "php importImages.php {{version}}/images"
   args:
     chdir: "{{mediawiki}}/maintenance"
 
-- name: "edit apparmor alias"
+
+#- name: install par script
+#  command: "{{ item }}"
+#  loop:
+#    - "php install.php --dbname {{mysql_bdd}} --dbuser {{mysql_user}} --dbpass {{mysql_pass}} --dbserver localhost --server='http://{{ansible_host}}' --dbtype mysql --wiki {{wiki_nom}} --pass {{wiki_pass}} --lang fr --scriptpath /mediawiki --confpath {{mediawiki}} {{wiki_nom}} admin"
+#    - "php importDump.php --wiki {{wiki_nom}} --server 'http://{{ansible_host}}' --dbuser {{mysql_user}} --dbpass {{mysql_pass}} {{mediawiki}}/Donnees.xml"
+#    - "php rebuildrecentchanges.php"
+#    - "php initSiteStats.php"
+#    - "php importImages.php {{mediawiki}}/images"
+#  args:
+#    chdir: "{{mediawiki}}/maintenance"
+
+- name: "edit LocalSettings.php"
   lineinfile:
     dest: "{{mediawiki}}/LocalSettings.php"
     regexp: '^\$wgLogos'
-    line: "$wgLogos = [ '1x' => \"$wgResourceBasePath/resources/assets/png/GRA-135.png\" ];"
+    line: "$wgLogos = [ '1x' => \"$wgResourceBasePath/resources/assets/GRA-135.png\" ];"
+
+
+#- name: sed
+# shell: sed -i 's/wiki\.png/GRA-135\.png/' "{{mediawiki}}/LocalSettings.php"
 
 #- name: Enable site
  # command: "a2ensite mediawiki.conf"
