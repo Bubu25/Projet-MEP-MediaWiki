@@ -15,4 +15,6 @@
       file:
         path: "/etc/conf_machine/signature"
         state: touch
+      become: yes
+      
 ...
