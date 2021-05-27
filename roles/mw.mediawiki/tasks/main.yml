@@ -113,7 +113,7 @@
 
 # check signature application
 - name: stat signature application
-  stat: path=/var/lib/mysql.bak/
+  stat: path="/etc/conf_machine/MWA_mediawiki.01.00.00"
   register: signature
 
 # installation de l'application
