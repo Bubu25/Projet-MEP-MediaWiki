@@ -22,6 +22,6 @@
       lineinfile:
         dest: /home/appli/MWA_mediawiki/LIVR/wikidevops/LocalSettings.php
         regexp: '^\$wgLogos'
-        line: "$wgLogos = [ '1x' => '$wgResourceBasePath/resources/assets/png/GRA.png' ];"
+        line: "$wgLogos = [ '1x' => "$wgResourceBasePath/resources/assets/png/GR.png" ];"
   
 ...
