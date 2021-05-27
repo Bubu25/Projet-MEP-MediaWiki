@@ -71,7 +71,7 @@
 
 # deplacement web folder 
 - name: stat web folder
-  stat: path="{{apache2_projects}}/""
+  stat: path="{{apache2_projects}}/"
   register: webfolder
 
 - name: Move web folder
