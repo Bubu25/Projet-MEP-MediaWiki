@@ -10,6 +10,12 @@
     - "{{server_disc}}"
 
 # signature file
+
+- name: directory of signature files
+  file:
+    path: /etc/conf_machine
+    state: directory
+    
 - name: Creating an empty file
   file:
     path: "/etc/conf_machine/MWA_mediawiki.01.00.00"
