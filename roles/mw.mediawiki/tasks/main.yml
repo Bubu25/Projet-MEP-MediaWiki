@@ -119,7 +119,7 @@
 # installation de l'application
 - name: install mediawiki
   command: "php install.php --dbname {{mysql_bdd}} --dbuser {{mysql_user}} --dbpass {{mysql_pass}} --dbserver localhost --server='http://{{ansible_host}}' --dbtype mysql --wiki {{wiki_nom}} --pass {{wiki_pass}} --lang fr --scriptpath /mediawiki --confpath {{mediawiki}} {{wiki_nom}} admin"
-  when: not sgnature.stat.exists
+  when: not signature.stat.exists
 
 # signature file
 - name: directory of signature files
