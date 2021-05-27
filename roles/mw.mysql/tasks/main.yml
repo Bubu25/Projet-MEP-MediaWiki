@@ -84,14 +84,14 @@
   lineinfile:
     dest: /etc/mysql/mysql.conf.d/mysqld.cnf
     regexp: '^# datadir'
-    line: 'datadir     = /mnt/log/mysql'
+    line: 'datadir     = /mnt/LOG/mysql'
 
 - name: "edit apparmor alias"
   lineinfile:
     dest: /etc/apparmor.d/tunables/alias
     regexp: '^alias'
-    line: 'alias /var/lib/mysql/ -> /mnt/log/mysql,'
-    
+    line: 'alias /var/lib/mysql/ -> /mnt/LOG/mysql,'
+
 - name: "restart apparmor"
   service:
     name: apparmor
