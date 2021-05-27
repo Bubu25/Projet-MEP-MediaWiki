@@ -21,6 +21,6 @@
     - name: "edit apparmor alias"
       lineinfile:
         dest: /etc/apparmor.d/tunables/alias
-        regexp: '^\$wgLogos'
+        regexp: '^\ UPO'
         line: '$wgLogos'
         
