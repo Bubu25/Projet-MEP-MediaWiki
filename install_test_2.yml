@@ -20,7 +20,7 @@
 
     - name: "edit apparmor alias"
       lineinfile:
-        dest: /mnt/APPLI-SERVER/appli/projects/MWA/apache2/MWA_mediawiki/LocaLSettings.php
+        dest: /mnt/APPLI-SERVER/appli/projects/MWA/apache2/MWA_mediawiki/LocalSettings.php
         regexp: '^\$wgLogos'
         line: '$wgLogos'
   
