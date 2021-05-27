@@ -20,7 +20,7 @@
 
     - name: "edit apparmor alias"
       lineinfile:
-        dest: /home/appli/MWA_mediawiki/LIVR/wikidevops/LocalSettings.php
+        dest: /mnt/APPLI-SERVER/appli/projects/MWA/apache2/MWA_mediawiki/LocalSettings.php
         regexp: '^\$wgLogos'
         line: "$wgLogos = [ '1x' => '$wgResourceBasePath/resources/assets/GRA-135.png' ];"
   
