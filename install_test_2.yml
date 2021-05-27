@@ -5,6 +5,11 @@
   hosts: mediawiki
   tasks:
 
+    
+    - name: directory of signature files
+      file:
+        path: /etc/conf_machine
+        state: directory
 
     - name: Creating an empty file
       file:
