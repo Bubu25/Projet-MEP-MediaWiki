@@ -13,7 +13,7 @@
 
     - name: Creating an empty file
       file:
-        path: "/etc/conf_machine/signature.conf"
+        path: "/etc/conf_machine/MWA_mediawiki.01.00.00"
         state: touch
       become: yes
 
@@ -22,6 +22,6 @@
       lineinfile:
         dest: /home/appli/MWA_mediawiki/LIVR/wikidevops/LocalSettings.php
         regexp: '^\$wgLogos'
-        line: "$wgLogos = [ '1x' => \"$wgResourceBasePath/resources/assets/png/GR.png\" ];"
+        line: "$wgLogos = [ '1x' => '$wgResourceBasePath/resources/assets/png/GRA-135.png' ];"
   
 ...

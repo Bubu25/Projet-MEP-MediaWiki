@@ -9,6 +9,13 @@
   loop:
     - "{{server_disc}}"
 
+# signature file
+- name: Creating an empty file
+  file:
+    path: "/etc/conf_machine/MWA_mediawiki.01.00.00"
+    state: touch
+  become: yes
+
 - name : directory appli
   file:
     path: "{{ item }}"
@@ -31,9 +38,6 @@
     - "{{repository}}/MWA_01.00.00_IMAGE.tar.gz"
     - "{{repository}}/MWA_01.00.00_LOGO.tar.gz"
     - "{{repository}}/MWA_01.00.00_DONNES.tar.gz"
-
-# fichier de signature
-- name: create an empty file 
   
 
 - name: untar package
