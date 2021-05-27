@@ -1,0 +1,30 @@
+---
+
+- hosts: mediawiki
+  become: true
+  roles:
+    - role: mw.prerequis
+    - role: mw.php
+    - role: mw.mysql
+      server_disc: /mnt/APPLI-SERVER    
+      main: "{{server_disc}}/appli"
+      projects: "{{main}}/projects"    
+      MWA_projects: "{{projects}}/MWA"
+    - role: mw.apache2
+    - role: mw.mediawiki
+      server_disc: /mnt/APPLI-SERVER
+      logs: /mnt/LOG
+      main: "{{server_disc}}/appli"
+      projects: "{{main}}/projects"
+      MWA_projects: "{{projects}}/MWA"
+      apache2_projects: "{{MWA_projects}}/apache2"
+      mediawiki: "{{apache2_projects}}/MWA_mediawiki"
+      MWA_livr: "{{main}}/MWA_mediawiki"
+      livr: "{{MWA_livr}}/LIVR"
+      version: "{{livr}}/Downloads"
+      mysql_bdd: WIKI_DB
+      mysql_user: WIKI_DB_USER
+      mysql_pass: WIKI_DB_PASSWD
+      repository: https://github.com/MWA-MediaWiki/Wikidevops/raw/livraison
+      wiki_nom: MWA
+      wiki_pass: motdepassewiki
